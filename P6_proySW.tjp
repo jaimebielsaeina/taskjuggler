@@ -19,8 +19,8 @@ project pSix "Web Game"  2023-03-15 +2.5m {
   # the project reports. If not specified, the current day will be
   # used, but this will likely be outside of the project range, so it
   # can't be seen in the reports.
-  now 2023-04-15-13:00
-  # The currency for all money values is the US Dollar.
+  now 2023-05-11-14:00
+  # The currency for all money values is the Euro.
   currency "EUR"
 
   # We want to compare the baseline scenario to one with the current one.
@@ -45,6 +45,7 @@ rate 145.2
 account cost "Project Cost" {
   account manag "Management"
   account wFront "Web Front-End"
+  account mFront "Mobile Front-End"
   account back "Back-End"
 }
 account rev "Payments"
@@ -66,6 +67,10 @@ resource dev2 "Samantha Müller" {
 }
 resource dev3 "Peter Green" {
   email "kkk@unizar.es"
+}
+resource dev4 "Jaime Bielsa {
+  email "819033@unizar.es"
+  limits { dailymax 4h }
 }
 
 # Now we specify the work packages. The whole project is described as
@@ -122,22 +127,22 @@ task WMGame "Web & Mobile Game" {
   task twebF "Web Front End" {
     purge chargeset
     chargeset wFront
-    responsible dev3
+    responsible dev4
     depends WMGame.tback.tBEd
     task tGUId "Web GUI Design" {
       effort 9d
       actual:effort 15d
-      allocate dev3
+      allocate dev4
+    }
+    task tFEc "Web Front End Construction" {
+      effort 25d
+      allocate dev2, dev4
+      depends WMGame.twebF.tGUId
       journalentry 2023-04-11 "Problems with the GUI design tool" {
-        author dev3
+        author dev4
         alert yellow
         summary "The tool used for the GUI design has given me a lot of problems. I recommend to look for other one."
       }
-    }
-    task tFEc "Web Front End Construction" {
-      effort 15d
-      allocate dev2, dev3
-      depends WMGame.twebF.tGUId
     }
     task tFEt "Web Front End Test" {
       effort 6d
@@ -146,18 +151,75 @@ task WMGame "Web & Mobile Game" {
     }    
   }
 
-  task ttest "Accpetance tests" {
-      effort 10d
-      allocate boss
-      allocate dev2
+  task tmobileF "Mobile Front End" {
+    purge chargeset
+    chargeset mFront
+    responsible dev3
+    depends WMGame.tback.tBEd
+    task tGUId "Mobile GUI Design" {
+      effort 9d
       actual:effort 15d
-      journalentry 2023-04-13 "Problems with the planned dates" {
-        author boss
+      allocate dev3
+      journalentry 2023-05-11 "Problems with Google Login integration" {
+        author dev3
         alert red
-        summary "The whole team asiigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reasign efforts."
+        summary "I got problems when trying to connect with the Google Login API."
       }
-      depends WMGame.twebF
-      depends WMGame.tback
+    }
+    task tFEc "Mobile Front End Construction" {
+      effort 15d
+      allocate dev2, dev3
+      depends WMGame.tmobileF.tGUId
+    }
+    task tFEt "Mobile Front End Test" {
+      effort 6d
+      allocate dev1
+      depends WMGame.tmobileF.tFEc
+    }    
+  }
+
+  task tcloud "Cloud Deployment" {
+    allocate dev1
+    actual:effort 13d
+    task tCAPC "Cloud Architecture and Platform Choice" {
+      effort 3d
+      allocate boss, dev1
+    }
+    task tCDC "Cloud Design and Configuration" {
+      effort 5d
+      allocate dev1
+      depends WMGame.tcloud.tCAPC
+    }
+    task tD "Deployment" {
+      effort 3d
+      allocate dev1
+      depends WMGame.tcloud.tCDC
+      depends WMGame.tback.tbackDev
+      depends WMGame.twebF.tFEc
+      depends WMGame.tmobileF.tFEc
+      journalentry 2023-04-13 "Issues with Azure" {
+        author dev1
+        alert red
+        summary "We got some charges in Azure for products we are not using. We need to check the Azure configuration."
+      }
+    }
+  }
+
+  task ttest "Accpetance tests" {
+    effort 10d
+    allocate boss
+    allocate dev2
+    start 2023-06-01
+    actual:effort 15d
+    journalentry 2023-04-13 "Problems with the planned dates" {
+      author boss
+      alert red
+      summary "The whole team asiigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reasign efforts."
+    }
+    depends WMGame.twebF
+    depends WMGame.tmobileF
+    depends WMGame.tback
+    depends WMGame.tcloud
   }
 
     
