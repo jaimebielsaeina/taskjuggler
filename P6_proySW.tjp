@@ -180,13 +180,14 @@ task WMGame "Web & Mobile Game" {
 
   task tcloud "Cloud Deployment" {
     allocate dev1
-    actual:effort 13d
     task tCAPC "Cloud Architecture and Platform Choice" {
       effort 3d
+      actual:effort 3d
       allocate boss, dev1
     }
     task tCDC "Cloud Design and Configuration" {
       effort 5d
+      actual:effort 6d
       allocate dev1
       depends WMGame.tcloud.tCAPC
     }
@@ -197,7 +198,7 @@ task WMGame "Web & Mobile Game" {
       depends WMGame.tback.tbackDev
       depends WMGame.twebF.tFEc
       depends WMGame.tmobileF.tFEc
-      journalentry 2023-04-13 "Issues with Azure" {
+      journalentry 2023-05-10 "Issues with Azure" {
         author dev1
         alert red
         summary "We got some charges in Azure for products we are not using. We need to check the Azure configuration."
