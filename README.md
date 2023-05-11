@@ -2,7 +2,7 @@
 
 Este repositorio usa GitHub Actions para ejecutar [TaskJuggler](https://taskjuggler.org) tomando como entrada el fichero de definición de proyecto P6_proySW.tjp y generando un conjunto de informes que se pueden descargar desde la pestaña de Actions.
 
-## Instrucciones
+## Instruccioness
 
 Tienes que hacerte un fork del repositorio, clonarlo en tu equipo, y ahí hacer las modificaciones que quieras al fichero P6_proySW.tjp para cumplir lo que se pide en la práctica. 
 
