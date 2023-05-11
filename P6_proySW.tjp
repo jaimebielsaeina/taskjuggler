@@ -319,6 +319,27 @@ textreport frame "" {
     title "Resource Graph"
     center '<[report id="resourceGraph"]>'
   }
+  textreport initovervi "Initial Overview" {
+    formats html
+    center '<[report id="initovervi"]>'
+  }
+}
+
+# A traditional Gantt chart with the initial project overview.
+taskreport initovervi "" {
+  scenarios actual
+  headline "Current Project Plan"
+  columns bsi { title 'WBS' },
+          name, start, end, effort, cost,
+          revenue, chart { ${TaskTip} }
+  # For this report we like to have the abbreviated weekday in front
+  # of the date. %a is the tag for this.
+  startdate 2023-03-15
+  timeformat "%a %Y-%m-%d"
+  loadunit days
+  hideresource @all
+  balance cost rev
+  caption 'All effort values are in man days.'
 }
 
 # A traditional Gantt chart with a project overview.
@@ -419,3 +440,4 @@ resourcereport resourceGraph "" {
   hidetask ~(isleaf() & isleaf_())
   sorttasks plan.start.up
 }
+
