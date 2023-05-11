@@ -334,8 +334,8 @@ taskreport initovervi "" {
           revenue, chart { ${TaskTip} }
   # For this report we like to have the abbreviated weekday in front
   # of the date. %a is the tag for this.
-  startdate 2023-03-15
   timeformat "%a %Y-%m-%d"
+  start 2023-03-15
   loadunit days
   hideresource @all
   balance cost rev
