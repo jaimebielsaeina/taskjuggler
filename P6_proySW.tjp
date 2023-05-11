@@ -68,7 +68,7 @@ resource dev2 "Samantha Müller" {
 resource dev3 "Peter Green" {
   email "kkk@unizar.es"
 }
-resource dev4 "Jaime Bielsa {
+resource dev4 "Jaime Bielsa" {
   email "819033@unizar.es"
   limits { dailymax 4h }
 }
